@@ -1,0 +1,32 @@
+{
+  "name": "node-db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bldf/node-db.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bldf/node-db/issues"
+  },
+  "homepage": "https://github.com/bldf/node-db#readme",
+  "dependencies": {
+    "busboy": "^0.2.14",
+    "formidable-upload-koa": "^1.0.1",
+    "koa": "^2.5.3",
+    "koa-body": "^4.0.4",
+    "koa-orm": "^2.3.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "orm": "^5.0.2"
+  }
+}
