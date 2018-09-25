@@ -1,4 +1,7 @@
 const usersDB = require('../DB/users.js');
+const { uploadFile } = require('../util/upload');
+const staticPath = './upload-files';
+const path = require('path') ;
 var md5 = require('md5') ;
 function init(router){
     router.post('/login.do',async ctx=>{//登录接口
@@ -27,11 +30,17 @@ function init(router){
      * 上传文件
      */
     router.post('/file/uploadPhoto.do',async ctx=>{
-
-        // ctx.body={time:_T.format(new Date()),success:'成功'};
+        var obj = ctx.request.body,result ;
+        var types = {1:'house',2:'base',3:'project'}[obj.fileType || '1'] ;
+        // 上传文件请求处理
+        let serverFilePath = path.join( __dirname, '../upload-files' );//保存文件的路径
+        // 上传文件事件
+        result = await uploadFile( ctx, {
+            fileType: types, // common or album,保存的地址子路径
+            path: serverFilePath
+        });
+        result.path = `/static/${types}/${result.path}`;
+        ctx.body = result ;
     });
-
-
-
 }
 module.exports=init;

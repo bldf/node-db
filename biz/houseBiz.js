@@ -8,7 +8,7 @@ function checkDB(){
         bedPosition:'额外床位,fk',
         capacity:'较大宾客容量,fk',
         acreage:'面积,fk',
-        describe:'描述,fk',
+        describes:'描述,fk',
     };
 }
 function init(router){
@@ -17,7 +17,7 @@ function init(router){
         if(reO.re){//如果验证成功
             let user ;
             user = await mDB.add(ctx.orm(),obj);
-            if(user.length===1){
+            if(user.dataValues){
                 ctx.body={success:'增加成功'};
             }else{
                 ctx.body={fail:'增加失败'};
@@ -45,12 +45,11 @@ function init(router){
     router.post('/house/upMsg.do',async ctx=>{//修改客房
         var obj = ctx.request.body,reO,reo2;
         reo2 =checkDB();
-        reo2.id = '参数id,ll1-99999';
         reO = _T.ckJ(obj,reo2);
         if(reO.re){//如果验证成功
             let user ;
             user = await mDB.up(ctx.orm(),obj);
-            if(user.length===1){
+            if(user){
                 ctx.body={success:'修改成功'};
             }else{
                 ctx.body={fail:'修改失败'};

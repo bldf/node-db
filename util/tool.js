@@ -63,6 +63,7 @@
                 if(checkAr(ar) && STR && (m1||m1===0) && m2){
                     (STR<m1 || STR>m2)&&(as=[],info="值不能"+(STR<m1?'小':'大')+"于"+((STR<m1?m1:m2)));
                 }else{
+                    as=[];
                     info=!STR?'非数字':"传递参数错误";
                 }
             },
@@ -136,14 +137,18 @@
      * @returns {string}
      * @constructor
      */
-    _T.SQup=function(saveObj,tableName,whereStr){
-       let  str = `update ${tableName} set `,setAr=[];
+    _T.SQup=function(saveObj,tableName,whereStr,whereValueArr=[]){
+       let  sql = `update ${tableName} set `,setAr=[],values=[];
        for(let a in saveObj){
-           setAr.push(`${a} = "${saveObj[a]}" `)
+           setAr.push(`${a} = ? `) ;
+           values.push(saveObj[a]);
        }
-       str += setAr.join(',') ;
-       str += ` where ${whereStr}` ;
-        return str ;
+        sql += setAr.join(',') ;
+        sql += ` where ${whereStr}` ;
+        whereValueArr.forEach(function(d){
+            values.push(d);
+        })
+        return {sql,values:values} ;
     };
     /**
      * 拼接ｓｑｌ语句ｂｙ　　ｉｄ
@@ -161,11 +166,12 @@
              console.log(id)
          }
         delete saveObj.id ;
-        return _T. SQup(saveObj,tableName,'id = '+id) ;
+        return _T. SQup(saveObj,tableName,'id = ?',[id]) ;
     };
 
     _T.DBupById=async function(saveObj,tableName,orm){
-        var re = await  orm.query(_T.SQupById(saveObj,tableName)) ;
+        var db  = _T.SQupById(saveObj,tableName) ;
+        var re = await  orm.query(db.sql,db.values) ;
         if(!~(re[0].info.indexOf(1))){re = false};
         return re ;
     }

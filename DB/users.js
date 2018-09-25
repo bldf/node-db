@@ -5,7 +5,7 @@ var userDB = {
     async login(ctxOrm,obj){
         return  await ctxOrm.sql.select()
                 .from('users')
-                .where('username = "'+obj.username+'" and pwd = "'+obj.pwd+'"')
+                .where('username = ? and pwd = ?',[obj.username,obj.pwd])
                 .query();
     }
 }
