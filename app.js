@@ -1,48 +1,50 @@
-const Koa = require('koa')
-const path = require('path')
-const app = new Koa()
-// const bodyParser = require('koa-bodyparser')
-const static = require('koa-static');//加载静态资源
+const Koa = require('koa');
+const path = require('path');
+const app = new Koa();
+const bodyParser = require('koa-bodyparser');
+const static2 = require('koa-static2');//加载静态资源
 const staticPath = './upload-files';
-const { uploadFile } = require('./util/upload')
+const { uploadFile } = require('./util/upload');
+const config = require('./DB/database.js') ;
+const orm = require('koa-orm')(config); // 查询数据使用
+require('./util/tool');//全局加载工具类
 
-// app.use(bodyParser())
-app.use(static(
-    path.join( __dirname,  staticPath)
-))
-app.use( async ( ctx ) => {
+/********  Begin 配置 session *********/
+const session = require("koa-session2"); // 配置session
+const Store = require("./libs/store.js");
+app.use(session({//初始化保存sessionid
+    store: new Store(),
+    key: "SESSIONID",
+}));
+/********  配置 session  End*********/
 
-    if ( ctx.url === '/' && ctx.method === 'GET' ) {
-        // 当GET请求时候返回表单页面
-        let html = `
-      <h1>koa2 upload demo</h1>
-      <form method="POST" action="/upload.json" enctype="multipart/form-data">
-        <p>file upload</p>
-        <span>picName:</span><input name="username" type="text" /><input name="picName" type="text" /><br/>
-        <input name="file" type="file" /><br/><br/>
-        <button type="submit">submit</button>
-      </form>
-    `
-        ctx.body = html
+app.use(bodyParser());//加载　获取参数的中间件
+app.use(static2('static',path.join( __dirname,  staticPath))); // 加载静态资源
 
-    } else if ( ctx.url === '/upload.json' && ctx.method === 'POST' ) {
-        // 上传文件请求处理
-        let result = { success: false }
-        let serverFilePath = path.join( __dirname, 'upload-files' )
+app.use(orm.middleware);//加载数据库查询链接对象 orm
+/******* Begin 加载业务逻辑层  *******/
+const Router = require('koa-router');
+const router = new Router() ;
+const indexBiz = require('./biz/indexBiz.js');
+indexBiz(router);//加载主要的业务逻辑层
+const houseBiz = require('./biz/houseBiz.js');
+houseBiz(router);//加载客房业务逻辑层
+app.use(router.routes())
+    .use(router.allowedMethods()) ;
+/******* 加载业务逻辑层   End*******/
 
-        // 上传文件事件
-        result = await uploadFile( ctx, {
-            fileType: 'album', // common or album
-            path: serverFilePath
-        })
+/******* Begin　加载测试代码 ********/
+const testBiz = require('./unit/testBiz.js');
+testBiz(router);//加载主要的业务逻辑层
+/******* 　 加载测试代码  End********/
 
-        ctx.body = result
-    } else {
-        // 其他请求显示404
-        ctx.body = '<h1>404！！！ o(╯□╰)o</h1>'
-    }
-})
 
 app.listen(3000, () => {
-    console.log('[demo] upload-simple is starting at port 3000')
-})
+    console.log('后台node服务启动成功，端口： 3000')
+});
+app.listen(3001, () => {
+    console.log('后台node服务启动成功，端口： 3001')
+});
+app.listen(3002, () => {
+    console.log('后台node服务启动成功，端口： 3002')
+});

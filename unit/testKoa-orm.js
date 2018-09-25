@@ -2,11 +2,10 @@ const Koa = require('koa') ;
 const app = new Koa() ;
 const Router = require('koa-router');
 const router = new Router() ;
-const koaBody = require('koa-body');
 const config = require('../DB/database.js') ;
 const orm = require('koa-orm')(config);
-const person= require('../model/users.js') ;
-
+// const person= require('../model/users.js') ;
+// console.log(orm);
 
 // router.get('/',(ctx,next)=>{
 //     ctx.body ='<h2>测试ajax</h2><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>' ;
@@ -37,22 +36,29 @@ const person= require('../model/users.js') ;
 // });
 app.use(orm.middleware);
 app.use(async function (ctx) {
-    const raws = await ctx.orm().sql.select().from('users').query();
-
+    // var obj = await ctx.orm().sql.select().from('users').where({username:'张三',pwd:'234'}).query();
+    // console.log(obj);
+    //         console.log(ctx.orm().sql);
+    var uuu =  ctx.orm().users ;
+    // var obj = await uuu.find({username:'张三',pwd:'234'});
+    // console.log(obj) ;
+    // var aaa = new uuu({pwd:'23',username:'张三'}) ;
+    // console.log('aaa',aaa.addFn());
+    // console.log('aaa',aaa._modelOptions.methods.add(111) );
     // var PE =  await person(ctx.orm.database(),ctx.orm());
-
     // await  PE.find({id:2},function(err,po){
     //     console.log(po[0].pwd);
     // });
     // console.log(await ctx.orm().queryOne());
-    // console.log(await ctx.orm().sql.select().from('users').where('id>2 and id<4').query());
+    console.log(await ctx.orm().sql.select().from('users').where("username='张三' and pwd='23'").query());
     // page  ; rows ;
     //分页查询
-    console.log(await ctx.orm().sql.select().from('users').limit(2).offset(3).querys());
+    // console.log(await ctx.orm().sql.select().from('users').limit(2).offset(3).querys());
     //如果没有 offset 就是一次查询多少数据
     // console.log(await ctx.orm().sql.select().from('users').limit(2).query());
     // const raws = await ctx.orm('test').sql.select().from('table').query();
-    ctx.body = raws;
+    // const raws =await ctx.orm().sql.select().from('users').querys();
+    ctx.body = 12;
 });
 
 app.listen(3000) ;

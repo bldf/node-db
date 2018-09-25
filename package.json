@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma init",
+    "unit": "karma start",
+    "unitDB": "node ./mochaRunner.js"
   },
   "repository": {
     "type": "git",
@@ -20,13 +22,26 @@
   "dependencies": {
     "busboy": "^0.2.14",
     "formidable-upload-koa": "^1.0.1",
+    "jasmine-core": "^3.2.1",
+    "karma-jasmine": "^1.1.2",
     "koa": "^2.5.3",
-    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
     "koa-orm": "^2.3.0",
     "koa-router": "^7.4.0",
-    "koa-static": "^5.0.0",
-    "mysql": "^2.16.0",
+    "koa-static2": "^0.1.8",
+    "md5": "^2.2.1",
     "mysql2": "^1.6.1",
     "orm": "^5.0.2"
+  },
+  "devDependencies": {
+    "gulp-imageisux": "^1.0.5",
+    "ioredis": "^4.0.0",
+    "karma": "^3.0.0",
+    "karma-coverage": "^1.1.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "koa-session2": "^2.2.8",
+    "mocha": "^5.2.0",
+    "mochawesome": "^3.0.3",
+    "supertest": "^3.3.0"
   }
 }
