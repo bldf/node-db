@@ -8,6 +8,7 @@ function checkDB(){
         bedPosition:'额外床位,fk',
         capacity:'较大宾客容量,fk',
         acreage:'面积,fk',
+        types:'客房类型,ll1-8',
         describes:'描述,fk',
     };
 }
@@ -60,10 +61,18 @@ function init(router){
     });
 
     router.post('/house/getHouseMsg.do',async ctx=>{//查询客房
-        var obj = ctx.request.body;
-        var rows = await mDB.select(ctx.orm(),obj);
-        var total = await mDB.getTotal(ctx.orm());
-        ctx.body = {rows,...total};
+        var selectObj = ctx.request.body,reO = _T.ckJ(selectObj,{types:'客房类型,ll1-8'});
+        if(reO.re){//如果验证成功
+            let sqlO = _T.SQwhereByObj(checkDB(),_T.filterObj(checkDB(),selectObj));
+            selectObj.sqlWhere = sqlO.sqlWhere ;
+            selectObj.sqlWhereAr = sqlO.sqlWhereAr ;
+            console.log(selectObj)
+            let rows = await mDB.select(ctx.orm(),selectObj);
+            let total = await mDB.getTotal(ctx.orm(),selectObj);
+            ctx.body = {rows,...total};
+        }else{
+            ctx.body = {fail:reO.info};
+        }
     });
 
 }

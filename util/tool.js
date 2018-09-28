@@ -128,6 +128,21 @@
     _T.type=function(a){
         return ({}).toString.call(a).replace(/\[|\]/gi,'').replace(/[a-zA-Z]+\s+/gi,'').toLowerCase() ;
     };
+    /**
+     * 过滤json对象中的数据，只是过滤一层，没有深度过滤。
+     * @param yesObj
+     * @param checkObj
+     * @returns {{}}
+     */
+    _T.filterObj=function(yesObj,checkObj){
+        let reObj = {}  ;
+        for(var a in checkObj){
+            if(yesObj[a]||yesObj[a]===0){
+                reObj[a]=checkObj[a];
+            }
+        }
+        return reObj ;
+    }
     /****************   Begin  Node 专用  ********************/
     /**
      *　凭借ＳＱＬ语句
@@ -168,13 +183,38 @@
         delete saveObj.id ;
         return _T. SQup(saveObj,tableName,'id = ?',[id]) ;
     };
-
+    /**
+     * 修改一条数据，来源id
+     * @param saveObj
+     * @param tableName
+     * @param orm
+     * @returns {Promise.<*>}
+     * @constructor
+     */
     _T.DBupById=async function(saveObj,tableName,orm){
         var db  = _T.SQupById(saveObj,tableName) ;
         var re = await  orm.query(db.sql,db.values) ;
         if(!~(re[0].info.indexOf(1))){re = false};
         return re ;
-    }
+    };
+    /**
+     * 凭借sql查询条件，返回{sql:str,sqlWhereAr}
+     * @param dbObj
+     * @param whereObj
+     * @returns {{sql: string, sqlAr: Array}}
+     * @constructor
+     */
+    _T.SQwhereByObj = function(dbObj,whereObj){
+        if(_T.type(dbObj)===_T.type(whereObj)){
+            let sql = [] ,sqlWhereAr=[];
+            for (var a in whereObj){
+                 dbObj[a]&&(sql.push(' '+a+' = ?'),sqlWhereAr.push(whereObj[a])) ;
+            }
+            return {sqlWhere:sql.join(' and '),sqlWhereAr} ;
+        }else{
+            throw  '参数传递错误';
+        }
+    };
     /****************   Node 专用 End ********************/
     root._T=_T ;
 })();
