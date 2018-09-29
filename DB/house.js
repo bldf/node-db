@@ -23,7 +23,7 @@ var DB = {
      */
     async select(orm,selectObj){
         //如果没有 offset 就是页数
-        return  await  orm.sql.select().from(tableName).where(selectObj.sqlWhere,selectObj.sqlWhereAr).limit(selectObj.rows || 30).offset(selectObj.page?selectObj.page-1: 0).query();
+        return  await  orm.sql.select().from(tableName).where(selectObj.sqlWhere,...selectObj.sqlWhereAr).limit(selectObj.rows || 30).offset(selectObj.page?selectObj.page-1: 0).query();
     },
     /**
      * 获取通条数
