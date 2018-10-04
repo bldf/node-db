@@ -1,7 +1,7 @@
 const join = require('path').join;
 const config = {
     name: 'node-db',
-    modelPath: join(__dirname, 'models'),
+    modelPath: join(__dirname, '../DB/models'),
     db: 'db_lvyou',//数据库名称
     username: 'debian-sys-maint',//用户名
     password: 'g5JakQk06DVmD85E',//密码

@@ -4,7 +4,7 @@ const app = new Koa();
 const bodyParser = require('koa-bodyparser');
 const static2 = require('koa-static2');//加载静态资源
 const staticPath = './upload-files';
-const config = require('./DB/database.js') ;
+const config = require('./config/database.js') ;
 const orm = require('koa-orm')(config); // 查询数据使用
 require('./util/tool');//全局加载工具类
 
@@ -24,15 +24,14 @@ app.use(orm.middleware);//加载数据库查询链接对象 orm
 /******* Begin 加载业务逻辑层  *******/
 const Router = require('koa-router');
 const router = new Router() ;
-const indexBiz = require('./biz/indexBiz.js');
-indexBiz(router);//加载主要的业务逻辑层
-const houseBiz = require('./biz/houseBiz.js');
-houseBiz(router);//加载客房业务逻辑层
+require('./biz/indexBiz.js')(router);//加载主要的业务逻辑层
+require('./biz/houseBiz.js')(router);//加载客房业务逻辑层
+require('./biz/specialProjectBiz.js')(router);//加载特色项目业务逻辑层
+require('./biz/newsBiz.js')(router);//加载新闻业务逻辑
 /******* 加载业务逻辑层   End*******/
 
 /******* Begin　加载测试代码 ********/
-const testBiz = require('./unit/testBiz.js');
-testBiz(router);//加载主要的业务逻辑层
+require('./unit/testBiz.js')(router);//加载主要的业务逻辑层
 /******* 　 加载测试代码  End********/
 
 app.use(router.routes())
