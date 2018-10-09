@@ -2,11 +2,10 @@ const Koa = require('koa') ;
 const app = new Koa() ;
 const Router = require('koa-router');
 const router = new Router() ;
-const koaBody = require('koa-body');
+const bodyParser = require('koa-bodyparser');
 
 router.get('/',(ctx,next)=>{
     ctx.body ='<h2>测试ajax</h2><script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>' ;
-
 })
     .get('/test',(ctx,next)=>{
         let url = ctx.url;
@@ -19,10 +18,11 @@ router.get('/',(ctx,next)=>{
     .get('/abc',(ctx,next)=>{
 ctx.body={aaaaaaaaaa:'99999999'} ;
 })
-    .post('/getP',(ctx,next)=>{
+    .post(/set\/getP[1|2|3]\.do/,(ctx,next)=>{
+        console.log(ctx.request.path.match(/\d+/)[0]);
         ctx.body={afadf:'asdfasdf'} ;
     });
-app .use(koaBody())
+app .use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods())
     .use(async (ctx) => {
@@ -31,5 +31,5 @@ app .use(koaBody())
            ctx.body={fail:o[ctx.status]};
        }
 })
-app.listen(3000) ;
+app.listen(3100) ;
 console.log('[demo] start-quick is starting at port 3000')

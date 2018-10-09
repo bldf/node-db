@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
-const config = require('../../DB/database.js') ;
+const config = require('../../config/database.js') ;
 const orm = require('koa-orm')(config);
 const usersDB = require('../../DB/users.js');
 const houseDB = require('../../DB/house.js');

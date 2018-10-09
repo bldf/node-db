@@ -2,7 +2,7 @@ const Koa = require('koa') ;
 const app = new Koa() ;
 const Router = require('koa-router');
 const router = new Router() ;
-const config = require('../DB/database.js') ;
+const config = require('../config/database.js') ;
 const orm = require('koa-orm')(config);
 // const person= require('../model/users.js') ;
 // console.log(orm);

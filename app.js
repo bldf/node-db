@@ -15,8 +15,8 @@ app.use(session({//初始化保存sessionid
     store: new Store(),
     key: "SESSIONID",
 }));
-/********  配置 session  End*********/
 
+/********  配置 session  End*********/
 app.use(bodyParser());//加载　获取参数的中间件
 app.use(static2('static',path.join( __dirname,  staticPath))); // 加载静态资源
 
@@ -28,6 +28,7 @@ require('./biz/indexBiz.js')(router);//加载主要的业务逻辑层
 require('./biz/houseBiz.js')(router);//加载客房业务逻辑层
 require('./biz/specialProjectBiz.js')(router);//加载特色项目业务逻辑层
 require('./biz/newsBiz.js')(router);//加载新闻业务逻辑
+require('./biz/otherBiz.js')(router);//加载新闻业务逻辑
 /******* 加载业务逻辑层   End*******/
 
 /******* Begin　加载测试代码 ********/

@@ -2,7 +2,14 @@ const usersDB = require('../DB/users.js');
 const { uploadFile } = require('../util/upload');
 const staticPath = './upload-files';
 const path = require('path') ;
-var md5 = require('md5') ;
+const md5 = require('md5') ;
+
+const Redis = require("ioredis");
+const redis = new Redis();
+
+const dbCrud = require('../libs/dbCrud.js')('loginStatus');
+
+
 function init(router){
     router.post('/login.do',async ctx=>{//登录接口
         var obj = ctx.request.body,reO = _T.ckJ(obj,{username:'用户名,fk',pwd:'密码,fk'});
@@ -11,7 +18,19 @@ function init(router){
             obj.pwd = md5(obj.pwd);//采用md5加密
             user = await usersDB.login(ctx.orm(),obj);
             if(user.length===1){
-                 ctx.body={success:'登录成功'};
+                user  = user[0] ;
+                 ctx.session.username = obj.username ;
+                let arr =  await  dbCrud.select(ctx.orm(),{sqlWhere:'userId = ?',sqlWhereAr:[user.id]});
+                for(let a = 0,d;d=arr[a];a++){
+                    await redis.del('SESSION:'+d.sessionId);
+                }
+                await ctx.orm().query('delete from loginStatus where userId = ?',[user.id]);
+                await dbCrud.add(ctx.orm(),{
+                    sessionId:ctx.cookies.get('SESSIONID'),
+                    stemFrom:'写死的PC',
+                    userId:user.id,
+                });
+                ctx.body={success:'登录成功'};
             }else{
                 ctx.body={fail:'用户名或密码错误'};
             }

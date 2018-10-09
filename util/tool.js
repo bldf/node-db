@@ -218,6 +218,8 @@
     /****************   Node 专用 End ********************/
     root._T=_T ;
 })();
+// console.log(_T.validate('http://www.94sll.com.do','wz'));
+// console.log(_T.format(new Date()));
 // console.log(_T.ckJ({id:11},{id:'参数id,ll1-99999'}))
 // console.log(_T.SQupById({id:23,aa:'aa'},'aaa'))
 // console.log(_T.DBupById({id:3,phone:'24124',username:'是否看见；啦'},'house'));
