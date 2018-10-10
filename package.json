@@ -22,8 +22,6 @@
   "dependencies": {
     "busboy": "^0.2.14",
     "formidable-upload-koa": "^1.0.1",
-    "jasmine-core": "^3.2.1",
-    "karma-jasmine": "^1.1.2",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-orm": "^2.3.0",
@@ -32,6 +30,7 @@
     "loadsh": "0.0.3",
     "md5": "^2.2.1",
     "mysql2": "^1.6.1",
+    "koa-session2": "^2.2.8",
     "orm": "^5.0.2"
   },
   "devDependencies": {
@@ -40,9 +39,10 @@
     "karma": "^3.0.0",
     "karma-coverage": "^1.1.2",
     "karma-phantomjs-launcher": "^1.0.4",
-    "koa-session2": "^2.2.8",
     "mocha": "^5.2.0",
     "mochawesome": "^3.0.3",
+    "jasmine-core": "^3.2.1",
+    "karma-jasmine": "^1.1.2",
     "supertest": "^3.3.0"
   }
 }
