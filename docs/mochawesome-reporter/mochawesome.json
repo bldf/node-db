@@ -1,0 +1,79 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2018-09-24T12:43:21.469Z",
+    "end": "2018-09-24T12:43:21.522Z",
+    "duration": 53,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "69b6053a-9ae6-4c8b-bc9e-bf22f8852761",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "d5ef0446-d338-4301-8246-12ccf74eab31",
+        "title": "node 接口测试 - DB数据库查询测试",
+        "fullFile": "/home/bldf/Desktop/project/node-db/unit/DB/model.spec.db.js",
+        "file": "/unit/DB/model.spec.db.js",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "测试用户增加接口/houseup",
+            "fullTitle": "node 接口测试 - DB数据库查询测试 测试用户增加接口/houseup",
+            "timedOut": false,
+            "duration": 41,
+            "state": "passed",
+            "speed": "medium",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "request()\n    .post(\"/houseup\")\n    .send({id:3,title:'123886',imgUrl:'7213'})\n    .expect('Content-Type', /json/)\n    .expect(200)\n    .end(function (err, res) {\n        console.log('返回的结果值houseup：=>',res.body);\n        if(res.body){\n            done();\n        }else{\n            done(err);\n        }\n    });",
+            "err": {},
+            "isRoot": false,
+            "uuid": "2ef13d1a-9f77-4d01-867c-deaf4b0617a0",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "2ef13d1a-9f77-4d01-867c-deaf4b0617a0"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 41,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2018
+}

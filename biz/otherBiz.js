@@ -31,6 +31,17 @@ function init(router){
             let value = await redis.get('setPage'+type);
             ctx.body = {success:'查询成功！',value};
     });
+
+    router.post(/\/set\/setSetPage6\.do/,async ctx=>{//设置设置
+        let obj = ctx.request.body;
+           await redis.set('setPage6',JSON.stringify(obj));
+           ctx.body = {success:'保存成功！'};
+    });
+    router.post(/\/set\/getSetPage6\.do/,async ctx=>{//查询设置
+            let type = ctx.request.path.match(/\d+/)[0] ;
+            let value = await redis.get('setPage6');
+            ctx.body = {success:'查询成功！',value};
+    });
 }
 
 module.exports=init ;

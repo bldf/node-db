@@ -5,7 +5,6 @@ function init(router){
     router.post('/house/addMsg.do',async ctx=>{//增加客房
         await bizCrud.add(ctx,checkDB,dbCrud);
     });
-
     router.post('/house/delMsg.do',async ctx=>{//删除客房
         await bizCrud.del(ctx,checkDB,dbCrud);
     });
